@@ -1,5 +1,7 @@
 # Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
-TARGET_EXEC := final_program
+CWD := $(shell pwd)
+PROJECT_NAME := $(shell basename $(CWD))
+TARGET_EXEC := $(PROJECT_NAME)
 
 BUILD_DIR := ./build
 SRC_DIRS := ./src
