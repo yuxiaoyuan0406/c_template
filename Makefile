@@ -27,6 +27,11 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 # These files will have .d instead of .o as the output.
 CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
+# Enable compile_commands.json when not clean
+ifneq ($(MAKECMDGOALS),clean)
+    export BUILD_CDB := "1"
+endif
+
 # The final build step.
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
@@ -35,16 +40,23 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 $(BUILD_DIR)/%.c.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+ifeq ($(BUILD_CDB), "1")
+	bear --append -- $(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+endif
 
 # Build step for C++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+ifeq ($(BUILD_CDB), "1")
+	bear --append -- $(CXX) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+endif
 
 
 .PHONY: clean
 clean:
 	rm -r $(BUILD_DIR)
+	rm compile_commands.json
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
