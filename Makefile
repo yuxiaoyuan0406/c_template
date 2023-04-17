@@ -33,7 +33,11 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP -Wall -Wextra
 
 # Enable compile_commands.json when not clean
 ifneq ($(MAKECMDGOALS),clean)
-    export BUILD_CDB := "1"
+	ifeq (,$(shell which shit))
+		BEAR_FOUND := $(warning Warning: bear is not installed, therefore compile_commands.json will not be generated.)
+	else
+		export BUILD_CDB := "1"
+	endif
 endif
 
 # The final build step.
