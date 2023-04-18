@@ -46,25 +46,25 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 
 # Build step for C source
 $(BUILD_DIR)/%.c.o: %.c
-	mkdir -p $(dir $@)
+	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 ifeq ($(BUILD_CDB), "1")
-	bear --append -- $(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	@bear --append -- $(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 endif
 
 # Build step for C++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
-	mkdir -p $(dir $@)
+	@mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 ifeq ($(BUILD_CDB), "1")
-	bear --append -- $(CXX) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	@bear --append -- $(CXX) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 endif
 
 
 .PHONY: clean
 clean:
-	rm -r $(BUILD_DIR)
-	rm -f compile_commands.json
+	-@rm -r $(BUILD_DIR)
+	-@rm compile_commands.json
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
