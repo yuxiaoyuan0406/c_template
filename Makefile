@@ -57,7 +57,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 ifeq ($(BUILD_CDB), "1")
-	@bear --append -- $(CXX) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	@bear --append -- $(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 endif
 
 
