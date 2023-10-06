@@ -1,9 +1,7 @@
-#include <stdio.h>
-#include "test.h"
+#include <unistd.h>
 
 int main() {
-    // printf("hello world\n");
-    hello_test();
-
-    return 0;
+    return execve( "/bin/ls",
+            (char*[]){"ls", "-lh", NULL},
+            (char*[]){NULL});
 }
